@@ -1,0 +1,29 @@
+CREATE DATABASE  IF NOT EXISTS `hackernews`;
+USE `hackernews`;
+--
+-- DROP TABLE IF EXISTS `users`;
+-- CREATE TABLE `users` (
+--     `id` int(11) NOT NULL AUTO_INCREMENT,
+--     `login` varchar(10) NOT NULL,
+--     `password` varchar(10) NOT NULL,
+--     `username` varchar(10) NOT NULL,
+--     `created_at` datetime DEFAULT NULL,
+--     PRIMARY KEY (`id`)
+--     );
+--
+-- LOCK TABLES `users` WRITE;
+-- INSERT INTO `users` VALUES (1,'testuser', 'a12345','me','2017-05-18 13:50:19');
+-- UNLOCK TABLES;
+--
+-- DROP TABLE IF EXISTS `tokens`;
+-- CREATE TABLE `tokens` (
+--     `id` int(11) NOT NULL AUTO_INCREMENT,
+--     `login` varchar(10) NOT NULL,
+--     `token` varchar(45) NOT NULL,
+--     `active` bool DEFAULT FALSE,
+--     PRIMARY KEY (`id`)
+--     );
+--
+-- LOCK TABLES `tokens` WRITE;
+-- INSERT INTO `tokens` VALUES ('1','testuser', 'hfkdshfkjsd', true);
+-- UNLOCK TABLES;
