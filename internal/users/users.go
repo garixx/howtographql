@@ -15,7 +15,7 @@ type User struct {
 
 func (user *User) Create() {
 	statement, err := database.Db.Prepare("INSERT INTO Users(Username, Password) VALUES (?,?)")
-	println(statement)
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -52,4 +52,25 @@ func GetUserIdByUsername(username string) (int, error) {
 		return 0, err
 	}
 	return id, nil
+}
+
+func (user *User) Authenticate() bool {
+	log.Println("auth attempt, User:", user)
+	statement, err := database.Db.Prepare("SELECT Password FROM Users WHERE Username = ?")
+	if err != nil {
+		log.Fatal("1:", err)
+	}
+	row := statement.QueryRow(user.Username)
+
+	var hashedPassword string
+	err = row.Scan(&hashedPassword)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return false
+		} else {
+			log.Fatal("2:", err)
+		}
+	}
+
+	return CheckPasswordHash(user.Password, hashedPassword)
 }

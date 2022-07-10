@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/garixx/howtographql/internal/auth"
+	_ "github.com/garixx/howtographql/internal/auth"
 	database "github.com/garixx/howtographql/internal/pkg/db/mysql"
 	"log"
 	"net/http"
@@ -23,6 +24,7 @@ func main() {
 	}
 
 	router := chi.NewRouter()
+
 	router.Use(auth.Middleware())
 
 	database.InitDb()
@@ -31,9 +33,9 @@ func main() {
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 
-	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", srv)
+	router.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	router.Handle("/query", srv)
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
